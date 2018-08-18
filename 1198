@@ -1,0 +1,67 @@
+#include<iostream>
+#include<cstdio>
+#include<cstring>
+#include<algorithm>
+#include<cmath>
+#include<queue>
+#include<vector>
+using namespace std;
+
+char ch;
+int k;
+int m,mod;
+int n;
+int maxn[800010];
+int t=0;
+
+void build(int o,int l,int r){
+	maxn[o]=-2000000000;
+	if (l==r) return;
+	int mid=(l+r)>>1;
+	build(o<<1,l,mid);
+	build(o<<1|1,mid+1,r);
+}
+
+int query(int o,int l,int r,int ql,int qr){
+	if (ql<=l&&qr>=r) return maxn[o]%mod;
+	else{
+		int mid=(l+r)>>1;
+		int ls=o<<1;
+		int rs=ls|1;
+		int ans=-2000000000;
+		if (ql<=mid) ans=max(ans,query(ls,l,mid,ql,qr))%mod;
+		if (qr>mid) ans=max(ans,query(rs,mid+1,r,ql,qr))%mod;
+		return ans%mod;
+	}
+}
+
+void update(int o,int l,int r,int x,int k){
+	if (l==r){
+		maxn[o]=k%mod;
+		return;
+	}
+	int mid=(l+r)>>1;
+	int ls=o<<1;
+	int rs=ls|1;
+	if (x<=mid) update(ls,l,mid,x,k);
+	else update(rs,mid+1,r,x,k);
+	maxn[o]=max(maxn[ls],maxn[rs])%mod;
+}
+
+int main(){
+	//ios::sync_with_stdio(false);
+	scanf("%d%d",&m,&mod);
+	build(1,1,m);
+	for (int i=1;i<=m;++i){
+		cin>>ch;
+		cin>>k;
+		if (ch=='Q'){
+			t=query(1,1,m,n-k+1,n);
+			printf("%d\n",t);
+		}else{
+			++n;
+			update(1,1,m,n,t+k);
+		}
+	}
+	return 0;
+}
