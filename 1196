@@ -1,0 +1,50 @@
+#include<cstdio>
+#include<iostream>
+#include<algorithm>
+const int M=30000;
+int t;
+int f[M+10],dis[M+10];
+int size[M+10];
+
+int find(int i) {
+	if (f[i]==i) return i;
+	int pre=f[i];
+	int ans=find(f[i]);
+	f[i]=ans;
+	dis[i]+=dis[pre];
+	return ans;
+}
+
+int main() {
+	scanf("%d",&t);
+	for (int i=1; i<=M; i++) {
+		f[i]=i;
+		size[i]=1;
+	}
+	char c;
+	int x,y;
+	int fx,fy;
+	int ans=0;
+	while(t--) {
+		scanf("\n");
+		c=getchar();
+		scanf("%d %d",&x,&y);
+		fx=find(x);
+		fy=find(y);
+
+		if (c=='M') {
+			f[fx]=fy;
+			dis[fx]=size[fy];
+			size[fy]+=size[fx];
+		} else {
+			if(fx!=fy) ans=-1;
+			else {
+				if(dis[x]<dis[y]) {
+					ans=dis[y]-dis[x]-1;
+				} else ans=dis[x]-dis[y]-1;
+			}
+			printf("%d\n",ans);
+		}
+	}
+	return 0;
+}
