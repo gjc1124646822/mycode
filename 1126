@@ -1,0 +1,88 @@
+#include<iostream>
+#include<queue>
+#include<cstdio>
+using namespace std;
+const int d[4][2]={{0,1},{1,0},{0,-1},{-1,0}};  // row col
+struct node{
+	int x,y;
+	int s;
+	int d;      //0=E 1=S 2=W 3=N 
+}src,dest,nxt,cur;
+int map[55][55];
+int vis[55][55][4];
+int n,m;
+char ch;
+void bfs()
+{
+	queue<node> q; q.push(src);
+	vis[src.x][src.y][src.d]=1;
+	while (!q.empty())
+	{
+		cur=q.front(); q.pop();
+		int xx=cur.x,yy=cur.y;
+		if (xx==dest.x&&yy==dest.y)
+		{
+			dest.s=cur.s;
+			return;
+		}
+		for (int i=0;i<3;++i)
+		{
+			xx+=d[cur.d][0]; yy+=d[cur.d][1];
+			if (xx>0&&xx<n&&yy>0&&yy<m&&!map[xx][yy+1]&&!map[xx+1][yy]&&!map[xx+1][yy+1]&&!map[xx][yy])
+			{
+				nxt.x=xx; nxt.y=yy;
+				nxt.d=cur.d;
+				
+				if (xx==dest.x&&yy==dest.y)
+				{
+					dest.s=cur.s+1;
+					return;
+				}
+				if (!vis[xx][yy][cur.d])
+				{
+					nxt.s=cur.s+1;
+					vis[xx][yy][cur.d]=1;
+					q.push(nxt);
+				}
+			}
+			else break;
+		}
+		nxt.x=cur.x; nxt.y=cur.y;
+
+		nxt.d=(cur.d-1+4)%4;
+		if (!vis[nxt.x][nxt.y][nxt.d])
+		{
+			nxt.s=cur.s+1;
+			q.push(nxt);
+			vis[nxt.x][nxt.y][nxt.d]=1;
+			
+		}
+		nxt.d=(cur.d+1)%4;
+		if (!vis[nxt.x][nxt.y][nxt.d])
+		{
+			nxt.s=cur.s+1;
+			q.push(nxt);
+			vis[nxt.x][nxt.y][nxt.d]=1;
+			
+		}
+	}
+}
+int main()
+{
+	cin>>n>>m;
+	for (int i=1;i<=n;++i)
+	  for (int j=1;j<=m;++j)
+		cin>>map[i][j];
+    cin>>src.x>>src.y>>dest.x>>dest.y>>ch;
+    src.s=0; dest.s=-1;
+    switch (ch)
+    {
+		case 'E':src.d=0; break;
+		case 'S':src.d=1; break;
+		case 'W':src.d=2; break;
+		case 'N':src.d=3; break;
+	}
+	bfs();
+	cout<<dest.s;
+	
+}
