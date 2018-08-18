@@ -1,0 +1,55 @@
+#include<iostream>
+#include<cstdio>
+#include<algorithm>
+#include<cmath>
+#include<cstring>
+using namespace std;
+
+struct staff{
+	int t;
+	int h;
+	int f;
+}a[110];
+bool cmp(const staff &a,const staff &b){
+	return a.t<b.t;
+}
+int d,g;
+int dp[110][3500]; 
+/* 
+   i:things number
+   j:height
+   dp[i][j]:max remaining time
+*/
+int v,delta;
+
+int main(){
+	scanf("%d%d",&d,&g);
+	for (int i=1;i<=g;++i)
+	  scanf("%d%d%d",&a[i].t,&a[i].f,&a[i].h),v+=a[i].h;
+    sort(a+1,a+1+g,cmp);
+    
+    memset(dp,-1,sizeof(dp));
+    dp[0][0]=10;
+    for (int i=1;i<=g;++i){
+    	for (int j=0;j<=v;++j){
+    		int delta=a[i].t-a[i-1].t;
+    		if (dp[i-1][j]>=delta){
+    			dp[i][j]=dp[i-1][j]-delta+a[i].f;
+			}
+    		if (j>=a[i].h&&dp[i-1][j-a[i].h]>=delta){
+    			dp[i][j]=max(dp[i][j],dp[i-1][j-a[i].h]-delta);	
+			}
+			if (j>=d&&dp[i][j]>=0){
+				cout<<a[i].t;
+				return 0;
+			}
+		}
+	}
+	int mx=10;
+	for(int i=1;i<=g;i++){
+        if(mx<a[i].t) break;
+        mx+=a[i].h;
+    }
+    cout<<mx<<endl;
+    return 0;
+}
