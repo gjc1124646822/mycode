@@ -1,0 +1,43 @@
+#include<iostream>
+#include<cstdio>
+#include<algorithm>
+#include<cstring>
+#include<cmath>
+using namespace std;
+//const int maxn=5000;
+int n;
+int a[5010];
+int f[5010];
+int tot[5010];
+int ans1,ans2;
+int main(){
+	scanf("%d",&n);
+	for (int i=1;i<=n;++i) scanf("%d",&a[i]);
+	for (int i=1;i<=n;++i){
+		f[i]=1;
+		for (int j=1;j<i;++j){
+			if (a[i]<a[j]){
+				f[i]=max(f[i],f[j]+1);
+			}
+		}
+		if (f[i]==1) tot[i]=1;
+	}
+	for (int i=1;i<=n;++i){
+		ans1=max(ans1,f[i]);
+	}
+	for (int i=1;i<=n;++i){
+		for (int j=1;j<i;++j){
+			if (a[j]>a[i]&&f[i]==f[j]+1){
+				tot[i]+=tot[j];
+			}
+			if (a[j]==a[i]&&f[j]==f[i]){
+				tot[j]=0;
+			}
+		}
+	}
+	for (int i=1;i<=n;++i){
+		if (f[i]==ans1) ans2+=tot[i];
+	}
+	printf("%d %d",ans1,ans2);
+	return 0;
+}
