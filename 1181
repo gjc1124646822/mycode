@@ -1,0 +1,16 @@
+#include<cstdio>
+int n,m,a[100010],k=0,l=0;
+int main()
+{
+    int i;
+  scanf("%d%d",&n,&m);
+   for(i=1;i<=n;i++)scanf("%d",&a[i]);
+   for(i=1;i<=n;i++)
+   {
+       if(l+a[i]<=m)l+=a[i];
+       else{l=a[i];k++;}
+   }
+   if(l>0)k++;
+   printf("%d",k);
+  return 0;
+}
