@@ -1,0 +1,18 @@
+#include<iostream>
+#include<cstdio>
+#include<algorithm>
+#define LL long long
+using namespace std;
+
+LL m;
+
+int main(){
+	scanf("%d",&m);
+	for (int i=1;i<=m/2+1;++i){
+		for (int j=i+1;j<=m/2+1;++j){
+			if ((i+j)*(j-i+1)/2==m) cout<<i<<" "<<j<<endl;
+			if ((i+j)*(j-i+1)/2>m) break;
+		}
+	}
+	return 0;
+}
