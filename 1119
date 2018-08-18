@@ -1,0 +1,43 @@
+#include<iostream>
+#include<cstdio>
+#include<algorithm>
+#include<cstring>
+#include<cmath>
+using namespace std;
+const int maxn=210;
+int ri,rj,rw;
+int rt,rx,ry;
+int dis[maxn][maxn];
+int n,m;
+int t[maxn];
+int vis[maxn];
+int q;
+int main(){
+	scanf("%d%d",&n,&m);
+	for (int i=0;i<n;++i)
+	  scanf("%d",&t[i]);
+	memset(dis,0x3f,sizeof(dis));
+	for (int i=0;i<n;++i){
+		dis[i][i]=0;
+	}
+	for (int i=1;i<=m;++i){
+		scanf("%d%d%d",&ri,&rj,&rw);
+		dis[ri][rj]=dis[rj][ri]=rw;
+	}
+	scanf("%d",&q);
+	while (q--){
+		scanf("%d%d%d",&rx,&ry,&rt);
+		for (int k=0;k<n;++k){
+			if (vis[k]||t[k]>rt) continue;
+			vis[k]=true;
+			for (int i=0;i<n;++i){
+				for (int j=0;j<n;++j){
+					dis[i][j]=min(dis[i][j],dis[i][k]+dis[k][j]);
+				}
+			}
+		}
+		if (dis[rx][ry]>100000||!vis[rx]||!vis[ry]) printf("-1\n");
+		else printf("%d\n",dis[rx][ry]);
+	} 
+	return 0;
+}
