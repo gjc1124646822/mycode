@@ -1,0 +1,54 @@
+#include<iostream>
+#include<cstdio>
+#include<algorithm>
+#include<cstring>
+#include<cmath>
+#include<vector>
+#include<queue>
+using namespace std;
+const int maxn=1000010;
+#define ll long long
+struct line{
+	int from,to;
+	ll v;
+};
+vector<line> edge;
+vector<int> G[maxn];
+int n,s;
+ll a,b,t;
+ll f[maxn];
+ll ans;
+void addedge(int from,int to,ll v){
+	edge.push_back((line){from,to,v});
+	edge.push_back((line){to,from,v});
+	int m=edge.size();
+	G[from].push_back(m-2);
+	G[to].push_back(m-1);
+}
+void dfs(int now,int fa){
+	for (int i=0;i<G[now].size();++i){
+		int to=edge[G[now][i]].to;
+		ll va=edge[G[now][i]].v;
+		if (to!=fa){
+			dfs(to,now);
+			f[now]=max(f[now],f[to]+va);
+		}
+	}
+	for (int i=0;i<G[now].size();++i){
+		int to=edge[G[now][i]].to;
+		ll va=edge[G[now][i]].v;
+		if (to!=fa){
+			ans+=f[now]-f[to]-va;
+		}
+	}
+}
+int main(){
+	scanf("%d%d",&n,&s);
+	for (int i=1;i<n;++i){
+		scanf("%d%d%lld",&a,&b,&t);
+		addedge(a,b,t);
+	}
+	dfs(s,0);
+	printf("%lld",ans);
+	return 0;
+}
