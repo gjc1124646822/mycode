@@ -1,0 +1,24 @@
+#include<iostream>
+#include<cstdio>
+using namespace std;
+int a[110];
+int n,m,ans;
+void dfs(int ni,int v)
+{
+	if (v==0)
+	{
+		ans++;
+		return;
+	}
+	if (ni<=0||v<0) return;
+	dfs(ni-1,v);
+	dfs(ni-1,v-a[ni]);
+}
+int main()
+{
+	cin>>n>>m;
+	for (int i=1;i<=n;++i)
+	  cin>>a[i];
+	dfs(n,m);
+	cout<<ans;
+}
