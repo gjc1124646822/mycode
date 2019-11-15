@@ -1,0 +1,19 @@
+#include<iostream>
+#include<string>
+#include<map>
+using namespace std;
+int np,i,j,a[10],give,ng;
+string name[10],s;
+map<string,int> f;
+int main() {
+	for(cin>>np; i<np; i++) cin>>name[i],f[name[i]]=i;
+	for(i=0; i<np; i++) {
+		cin>>s;
+		cin>>give>>ng;
+		a[f[s]]-=ng?give-give%ng:0;
+		for(j=0; j<ng; j++)cin>>s,a[f[s]]+=give/ng;
+	}
+	for(i=0; i<np; i++) cout<<name[i]<<' '<<a[i]<<endl;
+
+	return 0;
+}
