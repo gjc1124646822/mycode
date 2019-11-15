@@ -1,0 +1,22 @@
+#include<iostream>
+#include<cstdio>
+#define ll long long 
+using namespace std;
+ll a,p,k,ans;
+ll mod(ll a,ll p,ll k)
+{
+	ll aa=1;
+	while (p!=0)
+	{
+		if (p&1) aa=(aa*a)%k;
+		a=(a*a)%k;
+		p>>=1;
+	}
+	return aa;
+}
+int main()
+{
+	cin>>a>>p>>k;
+	cout<<a<<"^"<<p<<" mod "<<k<<"="<<mod(a,p,k);
+	return 0;
+}
