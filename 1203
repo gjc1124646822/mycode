@@ -1,0 +1,32 @@
+#include<cstdio>
+#include<string>
+#include<cstring>
+#include<iostream>
+using namespace std;
+int n,ans[1001];
+string s;
+int main() {
+	int n,i,j;
+	scanf("%d\n",&n);
+	cin>>s;
+	s+=s;
+	for(i=0; i<=n; i++) {
+		j=i-1;
+		while(s[++j]=='w');
+		char tmp=s[j];
+		while( ((s[++j]==tmp) || (s[j]=='w')) && (j>=i && j<i+n));
+		ans[i]+=j-i;
+		if(ans[i]==n) continue;
+		j=i+n;
+		while(s[--j]=='w');
+		tmp=s[j];
+		while( ((s[--j]==tmp) || (s[j]=='w')) && (j>=i && j<i+n));
+		ans[i]+=i+n-j-1;
+	}
+	int sum=0;
+	for(i=1; i<=n; i++)
+		if(ans[i]>sum)
+			sum=ans[i];
+	printf("%d",sum);
+	return 0;
+}
