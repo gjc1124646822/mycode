@@ -1,0 +1,36 @@
+#include<iostream>
+#include<cstdio>
+#include<algorithm>
+#include<cstring>
+#define LL long long 
+#define ull unsigned long long
+using namespace std;
+
+int n;
+int a[30];
+
+int main(){
+	scanf("%d",&n);
+	for (int i=1;i<=n;++i) scanf("%d",&a[i]);
+	
+	for (int i=1;i<=n;++i){
+		if (a[i]==0){
+			if (i%2==0){
+				cout<<"YES";
+				return 0;
+			}
+			break;
+		}
+	}
+	for (int i=n;i>=1;--i){
+		if (a[i]==0){
+			if ((n-i+1)%2==0){
+				cout<<"YES";
+				return 0;
+			}
+			break;
+		}
+	}
+	cout<<"NO";
+	return 0;
+} 
