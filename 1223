@@ -1,0 +1,30 @@
+#include<iostream>
+#include<cstdio>
+#include<algorithm>
+#include<cstring>
+#include<cmath>
+using namespace std;
+struct p{
+	int id,t;
+}a[1000010];
+bool cmp(const p &aa,const p &bb){
+	return aa.t<bb.t;
+}
+int n;
+double ans;
+int main(){
+	scanf("%d",&n);
+	for (int i=1;i<=n;++i){
+		a[i].id=i;
+		scanf("%d",&a[i].t);
+	}
+	sort(a+1,a+1+n,cmp);
+	for (int i=1;i<=n;++i){
+		printf("%d ",a[i].id);
+		ans+=(n-i)*a[i].t;
+	}
+	printf("\n");
+	ans=ans/(1.0*n);
+	printf("%.2lf",ans);
+	return 0;
+}
